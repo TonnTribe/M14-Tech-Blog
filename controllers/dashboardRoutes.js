@@ -12,12 +12,13 @@ router.get('/', withAuth, async (req, res) => {
 
         const posts = postData.map((post) => post.get({ plain: true }));
 
-        res.render('dashboard', {
+        res.render('allPostsAdmin', {
+            layout: 'dashboard',
             posts,
             logged_in: req.session.logged_in
         });
     } catch (err) {
-        res.status(500).json(err);
+        res.redirect('login');
     }
 });
 
@@ -27,8 +28,9 @@ router.get('/edit/:id', withAuth, async (req, res) => {
 
         const post = postData.get({ plain: true });
 
-        res.render('edit-post', {
-            ...post,
+        res.render('editPost', {
+            layout: 'dashboard',
+            post,
             logged_in: req.session.logged_in
         });
     } catch (err) {
@@ -37,7 +39,8 @@ router.get('/edit/:id', withAuth, async (req, res) => {
 });
 
 router.get('/new', withAuth, (req, res) => {
-    res.render('new-post', {
+    res.render('newPost', {
+        layout: 'dashboard',
         logged_in: req.session.logged_in
     });
 });
