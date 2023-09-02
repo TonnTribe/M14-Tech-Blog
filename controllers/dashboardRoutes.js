@@ -1,10 +1,10 @@
 const router = require('express').Router();
-const { POST } = require('../models/Post');
+const { Post, User, Comment } = require('../../models');
 const withAuth = require('../../utils/auth');
 
 router.get('/', withAuth, async (req, res) => {
     try {
-        const postData = await POST.findAll({
+        const postData = await Post.findAll({
             where: {
                 user_id: req.session.user_id
             }
@@ -23,7 +23,7 @@ router.get('/', withAuth, async (req, res) => {
 
 router.get('/edit/:id', withAuth, async (req, res) => {
     try {
-        const postData = await POST.findByPk(req.params.id);
+        const postData = await Post.findByPk(req.params.id);
 
         const post = postData.get({ plain: true });
 
